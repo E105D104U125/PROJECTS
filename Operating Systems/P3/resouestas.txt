@@ -1,0 +1,42 @@
+Ejercicio 1: Creación de Memoria Compartida. Dado el siguiente código en C:
+a) Explicar en qué consiste este código, y qué sentido tiene utilizarlo para abrir un objeto de memoria compartida.
+Este codigo trata de abrir un segmento de memoria compartida tanto de lectura como de escritura, en caso de que falle si ha fallado porque ya existe el fichero trata de volver a abrir el segmento de memoria sabiendo que ya existe uno con ese nombre. En caso de que la creacion haya fallado no porque exista ya otro fichero imprime un mensaje de error y retorna.
+Tiene sentido utilizar este codigo porque tiene un buen control de errores.
+b) En un momento dado se deseará forzar (en la próxima ejecución del programa) la inicialización del objeto de memoria compartida SHM_NAME. Explicar posibles soluciones (en código C o fuera de él) para forzar dicha inicialización.
+¿Que?
+
+Ejercicio 2: Tamaño de Ficheros. Dado el siguiente código en C:
+a) Completar el código anterior para obtener el tamaño del fichero abierto.
+    /* Get size of the file. */
+    fstat(fd, &statbuf);
+    //size=statbuf.st_size
+b) Completar el código anterior para truncar el tamaño del fichero a 5 B. ¿Qué contiene el fichero resultante?
+    /* Truncate the file to size 5. */
+    ftruncate(fd, 5);
+Test
+
+Ejercicio 3: Mapeado de Ficheros. Dado el siguiente código en C:
+a) ¿Qué sucede cuando se ejecuta varias veces el programa anterior? ¿Por qué?
+Que el contador va aumentando de valor de uno en uno cada vez que ejecutamos el programa.
+Esto seguramente se debe a que la zona de memoria no la estamos cerrando (no estamos llamando a unlink), entonces no estamos cerrando la memoria y el valor que deja el programa anterior se mantiene. De ahí que cada vez que lo ejecutamos aumente en uno respecto al valor de la anterior ejecucion.
+b) ¿Se puede leer el contenido del fichero “ test_file.dat ” con un editor de texto? ¿Por qué?
+No, pues es un mapeo de direcciones y no puede ser leido como un archivo de texto.
+
+Ejercicio 4: Memoria Compartida. Dado el siguiente código en C:
+a) ¿Tendrı́a sentido incluir shm_unlink en el lector? ¿Por qué?
+No, porque ya realiza el shm_unlink el escritor y solo necesitamos llamar a esta funcion una vez para que el sistema operativo borre la memoria compartida una vez que no quede ningún proceso tenga el descriptor de fichero asociado y ningún proceso tenga enlazado el segmento a su espacio de direcciones. 
+b) ¿Tendrı́a sentido incluir ftruncate en el lector? ¿Por qué?
+No, porque el escritor ya ha truncado la memoria compartida creada y escrito en ella. Lo que debe hacer el lector es comprobar que el tamaño (con fsat) de la memoria es el de la estructura ShmExampleStruct esperado.
+c) ¿Cuál es la diferencia entre shm_open y mmap ? ¿Qué sentido tiene que existan dos funciones diferentes?
+"shm_open" crea la memoria compartida y devuelve un descriptor de fichero con el que acceder a esa memoria que no esta "mapeada". Es decir, el proceso tiene el descriptor con el que acceder a la memoria pero esta zona de memoria no está unida lógicamente al espacio de direccionamiento virtual del proceso. "mmap" se encarga de unir el espacio de memoria al espacio de direccionamiento virtual del proceso. 
+d) ¿Se podrı́a haber usado la memoria compartida sin enlazarla con mmap ? Si es ası́, explicar cómo.
+Sí, se podría haber usado directamente el descriptor de fichero que nos devuelve shm_open, con el inconveniente de que al no estar ligada la memoria del proceso pueda no estar cargada en memoria.
+
+Ejercicio 5: Envı́o y Recepción de Mensajes en Colas. Dado el siguiente código en C:
+a) ¿En qué orden se envı́an los mensajes y en qué orden se reciben? ¿Por qué?
+cola-->first in first out con prioridades
+b) ¿Qué sucede si se cambia O_RDWR por O_RDONLY ? ¿Y si se cambia por O_WRONLY ?
+Que el programa falla pues el proceso no puede escribir o leer de la cola de mensajes.
+
+Ejercicio 6: Colas de Mensajes. Dado el siguiente código en C:
+Muy bien hecho el tuyo

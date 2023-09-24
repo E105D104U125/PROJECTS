@@ -1,0 +1,81 @@
+Ejercicio 1: Comando kill de Linux.
+a) Buscar en el manual la forma de acceder a la lista de señales usando el comando kill . Copiar en la memoria el comando utilizado.
+man kill
+b) ¿Qué número tiene la señal SIGKILL ? ¿Y la señal SIGSTOP ?
+SIGKILL tiene el valor 9 y SIGSTOP el valor 19.
+
+Ejercicio 2: Envı́o de Señales. Dado el siguiente código en C:
+a) Completar el programa en C anterior para reproducir de forma limitada la funcionalidad del comando de shell kill con un formato similar:
+$ ./ sig_kill -< signal > <pid >
+El programa debe recibir dos parámetros: el primero, <signal> representa el identificador numérico de la señal a enviar; el segundo, <pid> , el PID del proceso al que se enviará la señal.
+/***********Codigo Añadido******************/
+kill(pid,sig);
+/*******************************************/
+b) Probar el programa enviando la señal SIGSTOP de una terminal a otra (cuyo PID se puede averiguar fácilmente con el comando ps ). ¿Qué sucede si se intenta escribir en la terminal a la que se ha enviado la señal? ¿Y después de enviarle la señal SIGCONT ?
+No sucede nada, la terminal bloqueada con sig_kill no responde.
+La terminal bloquedada vuelve a funcionar.
+
+Ejercicio 3: Captura de Señales. Dado el siguiente código en C:
+a)¿La llamada a sigaction supone que se ejecute la función manejador ?
+No, pues para que se ejecute el manejador el proceso debe haber recibido una señal de tipo SIGINT. Incluso aunque le enviemos otra señal con el programa anterior, si no es de tipo SIGINT no se ejecutará el manjador implementado en el programa. Como es de esperar si le enviamos una señal de tipo SIGINT con el programa sig_kill activa el manejador.
+b)¿Se bloquea alguna señal durante la ejecución de la función manejador ?
+La única señal que se bloquea durante la ejecucion del manejador es SINGINT que es a la única que nos hemos referido llamando a sigaction. Añadí un sleep al manejador para comprobarlo y de esta manera vi que si introduces dos SIGINT ejecuta el manejador y una vez acaba vuelve a ejecutarlo otra vez para la segunda señal SIGINT, si introduces 5 SIGINT solo se guarda uno de ellos mientras se ejecuta el manejador.
+c)¿Cuándo aparece el printf en pantalla?
+Inmediatamente después de recibir la señal (pulsar Cr+C o enviandola a través de sig_kill).
+d)Modificar el programa anterior para que no capture SIGINT . ¿Qué sucede cuando se pulsa Ctrl + C ? En general, ¿qué ocurre por defecto cuando un programa recibe una señal y no tiene instalado un manejador?
+Pasando SIG_ING en vez del manejador conseguimos que ignore SIGING y de esta manera el programa no ejecuta el manejador ni termina como haría normalmente al recibir SIGINT.
+e) A partir del código anterior, escribir un programa que capture todas las señales (desde la 1 hasta la 31 ) usando el mismo manejador. ¿Se pueden capturar todas las señales? ¿Por qué?
+No se pueden capturar todas las señales, en concreto no deja capturar la señal 9.
+
+Ejercicio 4: Captura de SIGINT Mejorada. Dado el siguiente código en C:
+a) En esta versión mejorada del programa del Ejercicio 3, ¿en qué lı́neas se realiza realmente la gestión de la señal?
+Aunque cuando le llegue en cualquier momento se ejecutará el manejador, realmente la gestión de la señal se realiza en el if(got_signal) el cual se ejecutará si se ha activado con anterioridad el manejador poniendo got_signal a 1.
+b) ¿Por qué, en este caso, se permite el uso de variables globales?
+Porque en este caso la variable global es un indicador de si ha llegado la señal que estamos esperando, sirviendo de "mensajero" entre el manejador y el programa principal.
+
+Ejercicio 5: Bloqueo de Señales. Dado el siguiente código en C:
+a) ¿Qué sucede cuando el programa anterior recibe SIGUSR1 o SIGUSR2 ? ¿Y cuando recibe SIGINT ?
+Nada, esas señales están bloqueadas y el proceso las ignora.
+El programa finaliza como es normal al recibir SIGINT.
+b) Modificar el programa anterior para que, en lugar de hacer una llamada a pause, haga una llamada a sleep para suspenderse durante 10 segundos, tras la que debe restaurar la máscara original. Ejecutar el programa, y durante los 10 segundos de espera, enviarle SIGUSR1 . ¿Qué sucede cuando finaliza la espera? ¿Se imprime el mensaje de despedida? ¿Por qué?
+No se imprime el mensaje de despedida, se imprime "Señal definida por el usuario 1".
+Esto se debe a que las señales bloqueadas no se eliminan, se quedan como pendientes. Por esto aquellas señales que hayamos enviado seguirán en pendiente aunque se ignoren y, al desbloquear las señales de usuario y restaurar su gestión por defecto, se ejecutará el manejador de estas señales.
+
+Ejercicio 6: Gestión de la Alarma. Dado el siguiente código en C:
+a) ¿Qué sucede si, mientras se realiza la cuenta, se envı́a la señal SIGALRM al proceso?
+El programa finaliza igual que si se hubiera acabado el tiempo y le hubiera llegado la alarma.
+b) ¿Qué sucede si se comenta la llamada a sigaction ?
+El programa finaliza por el manejador por defecto que imprime por pantalla "Temporizador".
+
+
+Ejercicio 9: Procesos Alternos. Dado el siguiente código en C:
+Rellenar el código correspondiente a los huecos A , B , C , D , E y F (alguno de ellos puede estar vacı́o) con llamadas a sem_wait y sem_post de manera que la salida del programa sea:
+if (pid == 0) {
+        /* Rellenar Código A */
+		printf("1\n");
+		sem_post(sem1);
+        /* Rellenar Código B */
+		sem_wait(sem2);
+		printf("3\n");
+        /* Rellenar Código C */
+		sem_post(sem1);
+
+		sem_close(sem1);
+		sem_close(sem2);
+	}
+	else {
+        /* Rellenar Código D */
+		sem_wait(sem1);
+		printf("2\n");
+        /* Rellenar Código E */
+		sem_post(sem2);
+		sem_wait(sem1);
+		printf("4\n");
+        /* Rellenar Código F */
+        
+Ejercicio 10: Concurrencia y Sincronización de Procesos.
+f) Análisis de la ejecución:
+Analizar los mensajes que se imprimen por pantalla. ¿Se están ejecutando los procesos en el orden que les corresponde? ¿Hay garantı́as de que sea ası́? 
+Si están en orden porque, al estar bloquedadas las señales, normalmente no hay un cambio de proceso entre el envío de la señal SIGUSR1 del padre al hijo y la impresión del ciclo del proceso que envía la señal. No hay garantías de que esto suceda así pues podría darse el caso en que se cambie de proceso justo depués de enviar la señal SIGUSR1, lo que permitiría al hijo ejecutar su ciclo pues ya ha sido enviada la señal que debe esperar.
+Repetir el análisis anterior, pero tras introducir una espera aleatoria en cada proceso, después de enviar la señal al siguiente proceso pero antes de imprimir por pantalla. ¿Están ahora ordenados los mensajes? ¿Por qué?
+Esta vez no se ejecutan en orden pues ahora sí que los procesos envían las señales y mientras están en el sleep es muy fácil que algún proceso sucesor realice su ciclo antes que sus ancestros, lo cual puede hacer pues ya ha recibido la señal que le permite acabar el ciclo anterior.
