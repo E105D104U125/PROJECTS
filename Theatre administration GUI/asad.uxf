@@ -1,0 +1,268 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>--
+ </help_text><element><id>UMLClass</id><coordinates><x>379</x><y>595</y><w>260</w><h>190</h></coordinates><panel_attributes>Usuario
+--
+
+--
++ mostrarEventos(t:Teatro): Evento[*]
++ mostrarRepresentaciones(e: Evento):
+   RepresentacionEvento[*]
++ mostarAbono(t:Teatro): Abono[*]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>414</x><y>895</y><w>300</w><h>200</h></coordinates><panel_attributes>UsuarioRegistrado
+--
+- correo:String
+- password:String
+--
++ comprarEntradas(entradas: List&lt;Entrada&gt;):int
++ comprarEntradas(entradas: List&lt;Entrada&gt;,
+   tipo:TipoSeleccion):int
++ comprarAbono(abono: Abono):int
++ realizarReserva(r:Reserva):boolean
++ apuntarListaEspera(r: RepresentacionEvento)
++ confirmarReserva(r: Reserva)
++ cancelarReserva(r: Reserva)
++ pagar()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>574</x><y>1175</y><w>470</w><h>220</h></coordinates><panel_attributes>Gestor
+--
+
+--
++ consultarEstadisticasEventos(t:teatro)
++ consultarEstadisticasZonas(t:teatro)
++ anyadirEvento(e: Evento)
++ modificarAforo(z: ZonaSNoNumerada)
++ anyadirCiclo(c: Ciclo)
++ anyadirRepresentacion(r: RepresentacionEvento)
++ deshabilitarButaca(z:ZSNumerada, motivo:String, fecha:Date[2], 
+   posicion:int[1..*][2])
++ posponerRepresentacion(r:RepresentacionEvento, nuevaFecha: Date, hora: Time)
++ cancelarRepresentacion(r: RepresentacionEvento)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>564</x><y>775</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>474</x><y>1085</y><w>230</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;210;40;210;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1024</x><y>645</y><w>350</w><h>190</h></coordinates><panel_attributes>Teatro
+--
+- nombre:String
+- ubicacion:String
+- contacto:String
+- correo:String
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1164</x><y>1315</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt; Abstract &gt;&gt;
+/Zona/
+--
+- id:long
+- nombre:String
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>994</x><y>1585</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt; Abstract &gt;&gt;
+/ZonaSimple/
+--
+
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1084</x><y>1495</y><w>200</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;180;40;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1284</x><y>1585</y><w>210</w><h>190</h></coordinates><panel_attributes>ZonaCompuesta
+--
+
+--
++ anyadirZona(z:Zona)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1274</x><y>1495</y><w>140</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;120;90</additional_attributes></element><element><id>Relation</id><coordinates><x>1364</x><y>1430</y><w>100</w><h>170</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+r2=zonas
+m2=*</panel_attributes><additional_attributes>80;150;80;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1099</x><y>1765</y><w>140</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;120;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1119</x><y>1855</y><w>350</w><h>190</h></coordinates><panel_attributes>ZSNoNumerada
+--
+- aforo: int
+- reduccionAforo:double
+--
++ reducirAforo(reduccion:double)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>779</x><y>1855</y><w>310</w><h>190</h></coordinates><panel_attributes>ZSNumerada
+--
+- nFila: int
+- nColumna: int
+--
++ deshabilitarZona(d:DeshabilitacionButaca)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>929</x><y>1765</y><w>180</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;160;40;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>1174</x><y>825</y><w>60</w><h>510</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+r2=zonas
+m2=*</panel_attributes><additional_attributes>10;10;10;490</additional_attributes></element><element><id>UMLClass</id><coordinates><x>390</x><y>1852</y><w>260</w><h>190</h></coordinates><panel_attributes>Butaca
+--
+- columna: int
+- fila:int
+- habilitada:boolean
+--
++ deshabilitarButaca(d:DeshabilitacionButaca)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>645</x><y>1941</y><w>150</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+r2=butacas
+m2=*</panel_attributes><additional_attributes>130;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>635</x><y>701</y><w>410</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+r2=usuarios
+m2=*</panel_attributes><additional_attributes>390;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1920</x><y>501</y><w>410</w><h>250</h></coordinates><panel_attributes>&lt;&lt; Abstract &gt;&gt;
+/Evento/
+--
+- titulo: String
+- duracion: double
+- descripcion: String
+- autor: String
+- director: String
+- precioZona: double
+--
++ calcularRecaudacion(): double
++ calcularOcupacion(): int
++ printEvento()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1705</x><y>841</y><w>250</w><h>190</h></coordinates><panel_attributes>Concierto
+--
+- orquesta: String
+- interpretes: String[1..*]
+- programa: String
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1960</x><y>841</y><w>290</w><h>190</h></coordinates><panel_attributes>Danza
+--
+- bailarines: String[1..*]
+- grupoMusical: String
+- directorOrquesta: String
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2256</x><y>841</y><w>270</w><h>190</h></coordinates><panel_attributes>ObraTeatro
+--
+- actores:String[1..*]
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1837</x><y>741</y><w>260</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>240;10;240;50;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>2097</x><y>741</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>2127</x><y>741</y><w>260</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50;240;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1037</x><y>141</y><w>360</w><h>190</h></coordinates><panel_attributes>RepresentacionEvento
+--
+- fecha:Date
+- hora:Time
+--
++ avisarListaEspera()
++ entradasDisponibles(): Entrada[*]
++ printRepresentacion()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2723</x><y>566</y><w>260</w><h>190</h></coordinates><panel_attributes>&lt;&lt; Abstract &gt;&gt;
+/Abono/
+--
+- precio:souble
+- zona: Zona
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2568</x><y>846</y><w>270</w><h>190</h></coordinates><panel_attributes>Ciclo
+--
+- tematica:String
+- descuento: double
+--
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2858</x><y>846</y><w>270</w><h>190</h></coordinates><panel_attributes>AbonoAnual
+--
+- fechaIni:Date
+- fechaFin:Date
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1038</x><y>386</y><w>360</w><h>190</h></coordinates><panel_attributes>Reserva
+--
+- nLocalidades: int
+- fLimite: Date
+--
++ calcularPrecio():double</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1384</x><y>296</y><w>130</w><h>150</h></coordinates><panel_attributes>lt=-&gt;
+m1=*
+m2=1
+r1=reservas
+r2=representacion</panel_attributes><additional_attributes>20;120;60;120;60;20;13;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1368</x><y>696</y><w>570</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+r2=eventos
+m2=*</panel_attributes><additional_attributes>10;30;550;25</additional_attributes></element><element><id>Relation</id><coordinates><x>694</x><y>456</y><w>360</w><h>460</h></coordinates><panel_attributes>lt=-&gt;
+m1=1
+m2=*
+r2=reservas
+r1=usuario con reserva</panel_attributes><additional_attributes>10;440;70;20;340;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>1220</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt; Abstract &gt;&gt;
+/Estadística/
+--
+rec:double
+--
++ actualizarEstadistica()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>1290</y><w>200</w><h>50</h></coordinates><panel_attributes>lt=-&gt;
+r1=analista
+r2=estadisticas
+m1=1
+m2=*
+</panel_attributes><additional_attributes>180;25;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>1470</y><w>260</w><h>190</h></coordinates><panel_attributes>EstadisticaRepresentacion
+--
+- ocupacion:int
+--
++ actualizarEstadistica()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>1470</y><w>250</w><h>190</h></coordinates><panel_attributes>EstadisticaZona
+--
+--
++ actualizarEstadistica()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>150</x><y>1400</y><w>160</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>140;10;140;40;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>300</x><y>1400</y><w>140</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;120;70</additional_attributes></element><element><id>Relation</id><coordinates><x>1393</x><y>221</y><w>740</w><h>300</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+m2=*
+r2=representaciones</panel_attributes><additional_attributes>720;280;720;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1883</x><y>1131</y><w>380</w><h>220</h></coordinates><panel_attributes>Entrada
+--
+- precio:double
+- bloqueada: boolean
+-
++ comprar(u:UsuarioRegistrado, pago: MetodoPago)
++ descargarEntrada()
++ reservar(u:UsuarioRegistrado)
++ retirar()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1842</x><y>1423</y><w>420</w><h>190</h></coordinates><panel_attributes>EntradaNumerada
+--
+
+--
++ comprar(u:UsuarioRegistrado, tipo: TipoSeleccion)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2022</x><y>1343</y><w>40</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>11;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>704</x><y>960</y><w>1200</w><h>270</h></coordinates><panel_attributes>lt=&lt;-
+m1=*
+m2=1
+r1=entradas</panel_attributes><additional_attributes>1180;240;920;240;920;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1452</x><y>1177</y><w>450</w><h>160</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=*
+r2=entradas
+r1=</panel_attributes><additional_attributes>10;10;60;10;210;130;430;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1393</x><y>280</y><w>510</w><h>910</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+m2=*
+r2=entradas</panel_attributes><additional_attributes>10;10;290;10;290;880;490;880</additional_attributes></element><element><id>Relation</id><coordinates><x>2317</x><y>686</y><w>360</w><h>180</h></coordinates><panel_attributes>lt=&lt;-
+m1=1..*
+m2=*
+r1=eventos
+r2=ciclos</panel_attributes><additional_attributes>10;25;310;30;310;160</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1228</x><y>1015</y><w>230</w><h>190</h></coordinates><panel_attributes>PrecioZona
+--
+- precio:double
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1288</x><y>1195</y><w>150</w><h>140</h></coordinates><panel_attributes>lt=&lt;-
+m1=*
+m2=1
+precio evento por zona</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2773</x><y>745</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>2873</x><y>745</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>1416</x><y>731</y><w>520</w><h>310</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+r2=   precio zona
+m2=  *</panel_attributes><additional_attributes>500;10;140;10;10;285</additional_attributes></element><element><id>UMLClass</id><coordinates><x>716</x><y>1578</y><w>210</w><h>140</h></coordinates><panel_attributes>DeshabilitacionButaca
+--
+- motivo:String
+- fIni:Date
+- fFin:Date
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>806</x><y>1712</y><w>150</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+r2=butacas deshabilitadas
+m2=*</panel_attributes><additional_attributes>10;140;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>366</x><y>326</y><w>270</w><h>190</h></coordinates><panel_attributes>Notificacion
+--
+- mensaje:String
+--
++ mostrarNotificacion():String
++ enviarNotificacion(u:UsuarioRegistrado)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>626</x><y>366</y><w>480</w><h>300</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+r2=norificaciones
+m2=*</panel_attributes><additional_attributes>460;280;460;250;60;250;60;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>536</x><y>1604</y><w>1560</w><h>530</h></coordinates><panel_attributes>lt=&lt;-
+m1=1
+m2=1
+r1=butacas
+r2=entrada</panel_attributes><additional_attributes>14;440;10;500;1500;510;1500;10</additional_attributes></element><element><id>Relation</id><coordinates><x>710</x><y>201</y><w>350</w><h>750</h></coordinates><panel_attributes>lt=&lt;-&gt;
+m1=*
+m2=*
+r2=representaciones
+r1=  usuarios en lista de espera
+lista espera</panel_attributes><additional_attributes>10;724;190;720;190;20;330;20</additional_attributes></element><element><id>Relation</id><coordinates><x>346</x><y>506</y><w>190</w><h>410</h></coordinates><panel_attributes>lt=&lt;-
+m1=*
+m2=1..*
+r1=notificaciones
+r2=receptores</panel_attributes><additional_attributes>50;10;50;50;10;50;10;340;110;340;110;390</additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>1031</y><w>210</w><h>150</h></coordinates><panel_attributes>&lt;&lt;enum&gt;&gt;
+TipoSeleccion
+--
++ CentradaFilaColumna
++ CentradaFilaInferior
++ CentradaFilaSuperior
++ Alejada
++ Manual
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>850</x><y>831</y><w>250</w><h>370</h></coordinates><panel_attributes>lt=&lt;-&gt;
+m1=     1
+m2=1
+r1=      gestor
+r2=teatro</panel_attributes><additional_attributes>10;344;10;310;200;50;200;10</additional_attributes></element><element><id>Relation</id><coordinates><x>248</x><y>0</y><w>2490</w><h>950</h></coordinates><panel_attributes>lt=&lt;-
+m1=*
+m2=1
+r1=abonos
+r2=comprador</panel_attributes><additional_attributes>2470;610;2320;610;2320;10;10;10;10;920;160;925</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2420</x><y>1161</y><w>210</w><h>150</h></coordinates><panel_attributes>&lt;&lt;enum&gt;&gt;
+MetodoPago
+--
++ AbonoCiclo
++ AbonoAnual
++ Tarjeta</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1394</x><y>426</y><w>510</w><h>850</h></coordinates><panel_attributes>lt=&lt;-&gt;
+m1=*
+m2=1
+r1=entradas
+r2=reserva</panel_attributes><additional_attributes>490;820;230;820;140;750;140;20;13;20</additional_attributes></element><element><id>Relation</id><coordinates><x>28</x><y>60</y><w>1310</w><h>1430</h></coordinates><panel_attributes>lt=-&gt;
+m1=*
+m2=1
+r1=representaciones
+r2=estadistica</panel_attributes><additional_attributes>1200;80;1200;10;10;10;10;1410</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>830</y><w>770</w><h>610</h></coordinates><panel_attributes>lt=&lt;-&gt;&gt;&gt;&gt;&gt;
+r1=*
+m1=estadisticas</panel_attributes><additional_attributes>10;560;110;560;110;590;750;590;750;10</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>1470</y><w>620</w><h>50</h></coordinates><panel_attributes>lt=&lt;-
+m1=*
+r1=zonas
+r2=estadistica
+m2=1</panel_attributes><additional_attributes>600;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>566</x><y>1664</y><w>170</w><h>210</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..1
+m2=1..*
+r1=ticket de deshabilitacion
+r2=butacas</panel_attributes><additional_attributes>150;20;20;20;20;190</additional_attributes></element></diagram>
