@@ -1,0 +1,18 @@
+plot "mergesort.log" using 1:3 title "OBmedia" linestyle 7 linecolor 4 lw 2, "mergesort.log" using 1:4 title "OBmin" linestyle 7 linecolor 2 lw 2, "mergesort.log" using 1:5 title "OBmax" linestyle 7 linecolor 1 lw 2, f(x) linecolor 4 lw 2 title "media", g(x) linecolor 2 lw 2 title "min" , h(x) linecolor 1 lw 2 title "max"
+
+
+set key left top
+
+set xlabel "Tamanio perm"
+set ylabel "OB"
+
+set xrange[9:101]
+set yrange
+
+set tics font ",13"
+set title font ",14"
+set xlabel font ",14"
+set ylabel font ",14"
+
+linestyle 1 lw 1 linecolor 2
+fit f(x) "mergesort.log" using 1:3 via a
