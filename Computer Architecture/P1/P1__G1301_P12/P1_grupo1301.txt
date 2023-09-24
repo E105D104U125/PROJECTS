@@ -1,8 +1,0 @@
--Número de pareja: 12
-
--Integrantes: Eduardo Terrés Caballero y Diego Vicente Miguel.
-
--Aclaraciones: 
-La lógica de salto (determinación del flag y de la dirección de salto) se establece en la etapa de MEM.
-
-
