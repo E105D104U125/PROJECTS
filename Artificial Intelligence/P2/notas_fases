@@ -1,0 +1,21 @@
+
+    Mobility
+    Potential mobility
+    Edge table
+    Corner ratio 
+	[!] critical moves
+    Avoiding Edges
+    Access 
+    Parity
+
+64
+34 en la primera esquina
+[!] critical moves
+1) [0-d1] principio
+	posicional:
+	diagonal corner
+	corners
+2) [d1-33] medio (edge fight)
+	edge 
+3) [34-49] transicion medio-final. primera esquina capturada 
+4) [50-64] final (ultimas 14)

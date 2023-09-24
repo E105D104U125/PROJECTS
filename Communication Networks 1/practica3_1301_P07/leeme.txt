@@ -1,0 +1,32 @@
+Práctica 3 Redes - ICMP, IP y UDP
+Autores: Eduardo Terrés y Alberto Rueda
+
+*-----------------------*----------------------*
+* RÚBRICA Y VALORACIONES *
+*-----------------------*----------------------*
+Normativa de entrega cumplida en su totalidad: Realizado. Varias relecturas y comprobaciones de los criterios.
+Fichero leeme.txt bien explicado:  Realizado. Explicaciones claras y suficientes.
+Recibir y enviar datagramas UDP sin opciones IP ni fragmentación. Realizado. Se construye la trama del paquete, realizando las 
+	conversiones a bytes necesarias, con el uso de struct.pack. Se envían y reciben paquetes UDP con el texto de prueba
+	"default test", tomando como tamaño de cabecera 20, por lo que los tamaños de carga útil coinciden con los del enunciado.
+	Se ha comprobado con Wireshark que se envía el paquete UDP con los campos correctos. Asimismo, se reciben paquetes correctamente,
+	imprimiendo por pantalla la información obviando los ceros de padding de ethernet, en caso de haber. Se llama a logging.debug
+	con los datos de la trama pedidos.
+Recibir y enviar mensajes ICMP sin opciones IP ni fragmentación (incluyendo pruebas con ping estándar): Realizado. Se construye
+	la trama correctamente, realizando las conversiones a bytes necesarias, con el uso de struct.pack. Tras el envío de la trama,
+	el destinatario envía la correspondiente repuesta ICMP, a parte de la del sistema operativo. Se ha comprobado con Wireshark
+	que se envían los paquetes Echo request  y reply con los campos correctos.  Se llama a logging.debug con los datos de la trama
+	pedidos, incluyendo los valores tipo y código.
+Enviar y recibir correctamente mensajes ICMP con opciones IP: Realizado. Las opciones incluídas tienen un tamaño de 12 bytes, por lo que
+	se toma el mayor múltiplo de ocho que sea menor que 1468, es decir 1464, que es la carga útil máxima sin contar la cabecera IP.
+	Se ha comprobado con Wireshark que las opciones se envían correctamente y en la posición adecuada.
+Enviar datagramas UDP con fragmentación: Realizado. Se calcula correctamente la cantidad de paquetes a enviar y se dividen correctamente
+	los datos entre los paquetes. Se modifican las variables de control de la cabecera. Se ha comprobado con Wireshark que llegan
+	todos los paquetes, de hecho el programa los identifica como la misma trama, aunque fragmentada, una vez han llegado todos.
+	Se ha tomado como prueba un fragmento de 3500 caracteres, que no incluimos en la entrega ya que el contenido es irrelevante.
+Enviar datagramas UDP con fragmentación y opciones IP: Realizado. Se ha comprobado el correcto funcionamiento de la combinación de ambas.
+	Con Wireshark se puede ver que la cabecera de los paquetes contiene las opciones, y que el envío se realiza en varios fragmentos.
+	Se respeta el tamaño de datos útiles por paquete, que es menor ya que la cabecera IP ocupa más.
+Enviar datagramas UDP fuera de la subred actual: Realizado. Se envían correctamente los datagramas. Hemos tomado como referencia la IP
+	8.8.8.8 y comprobado con Wireshark que la MAC a la que se envían los paquetes es la asociada al gateway de la red.
+*-----------------------*----------------------*

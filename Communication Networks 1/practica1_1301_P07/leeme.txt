@@ -1,0 +1,49 @@
+Práctica 1 Redes - Wireshark y Libpcap en python
+Autores: Eduardo Terrés y Alberto Rueda
+
+Comentarios:
+   1) Se ha extendido el control de errores para verificar que el dato introducido en nbytes es válido.
+
+   2) El flujo divido se ha implementado únicamente en la apertura de la interfaz o de la traza (objeto handle). El resto
+	del programa sigue un flujo único.
+	
+   3) En la imagen practica1captura.png, se han añadido lineas de colores para que la comprobación de que ambos 
+	resultados es el mismo sea más facil. Estas agrupaciones no tienen ningún criterio específico, son puramente
+	prácticas.
+
+   4) El archivo practica1.pcap almacena la traza del primer ejercicio del manual de Wireshark.
+
+   5) Si se introducen ambas flags (--file y --itf) en un comando, el programa ignorará la que está en segunda posición.
+
+   6) Hemos organizado la entrega en dos carpetas, una con los ejercicios de Wireshark y otra segunda con el programa de
+	Libcap.
+
+Respuestas:
+	En el ejercicio 4 de la parte de python, se hace la siguiente pregunta: 
+		P: Prestad atención a los límites de bytes capturados, y a paquetes más pequeños (¿los hay?).
+		R: Sí, se observan paquetes de diferentes tamaños. El mayor de todos es de 1514 bytes, que 
+		     coincide con ETH_FRAME_MAX. Por otra parte, existen paquetes de 54 o 60 bytes, por lo que
+		     se aprecia una diferencia significativa entre ambos tamaños.
+
+
+*-----------------------*----------------------*
+* RÚBRICA Y VALORACIONES *
+*-----------------------*----------------------*
+Normativa de entrega cumplida en su totalidad: Realizado. Varias relecturas y comprobaciones de los criterios.
+Contar paquetes de una traza: Realizado.  Al analizar una traza desde un archivo, lee la totalidad de los paquetes.
+	Para comprobarlo hemos generado una traza grande mediante la captura de interfaz con Wireshark, hemos
+	guardado la traza para posteriormente leerla con el programa.
+Contar paquetes de la interfaz de red: Realizado. Se ha comprobado que al ejecutar el script para capturar trafico 
+	de interfaz en vivo, se muestra el mensaje de cuantos paquetes han sido procesados una vez finalizada la
+	captura, ya sea por alcanzar el límite o por introducir Ctrl + C.
+Almacenar en una traza el tráfico capturado en vivo: Realizado. Se almacena el tráfico capturado en vivo en una traza
+	con el nombre indicado. Se ha comprobado que se almacenan todos los paquetes, abriendo la traza con wireshark
+	y comprobando que el número coincide.
+Modificar fecha correctamente: Realizado. Se ha comprobado con Wireshark que la fecha de captura se modifica
+	correctamente.
+Imprimir los N primeros bytes de un paquete y validarlo con Wireshark (captura de pantalla): Realizado.
+	NOTA: Cabe destacar que si el número de bytes (nbytes) indicado para la impresión es superior al tamaño
+	del paquete, se imprimira en su totalidad, dando un resultado de impresión no uniforme entre paquetes
+	(ya que las longitudes serán diferentes).
+Cuestionario "Ejercicios de captura de tráfico": Realizado. Todas las preguntas respondidas y argumentadas.
+*-----------------------*----------------------*

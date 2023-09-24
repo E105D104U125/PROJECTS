@@ -1,0 +1,58 @@
+Práctica 2 Redes - ARP y ethernet
+Autores: Eduardo Terrés y Alberto Rueda
+
+Comentarios:
+   1) El tiempo de espera entre los tres intentos de petición ARP hemos decidido que sea de 100 milisegundos. 
+
+   2) El uso de locks se ha realizado mediante sucesivas llamadas a los métodos acquire() y release(), en vez de 
+	emplear with lock.
+
+Archivos adjuntos:
+   1) Se adjunta una imagen "Prueba1.png" en la que se puede ver el correcto funcionamiento de la prueba 1. 
+	Los ARP Gratuitos de ambos hosts son exitosos. Desde h1 se pide la dirección MAC de h2 mediante una petición
+	ARP. Una vez se resuelve la petición, se añade a a la caché y, tras intentar volver a pedirla - en menos de diez
+	segundos tras la primera petición -, se aprecia en Wireshark que no se envían más paquetes.
+
+   2) Se adjunta una imagen "Prueba2.png" en la que se puede ver el correcto funcionamiento de la prueba 2.
+	Tras cambiar la dirección IP en h2, al intentar unirse a la red recibe una respuesta ARP, por lo que el programa
+	finaliza mostrando por pantalla un mensaje de error. Mediante Wireshark se puede ver que solo se envía un
+	paquete por parte de h2, y h1 envía su ARP Reply correctamente.
+
+*-----------------------*----------------------*
+* RÚBRICA Y VALORACIONES *
+*-----------------------*----------------------*
+Normativa de entrega cumplida en su totalidad: Realizado. Varias relecturas y comprobaciones de los criterios.
+Fichero leeme.txt bien explicado: 
+	Realizado. Explicaciones claras y suficientes.
+Recibir tramas Ethernet, realizar comprobaciones y llamar correctamente a la función de callback de nivel superior.
+	Realizado. Mediante la llamada a la función run de la clase rxThread se reciben las tramas de ethernet.
+	Se comprueba la MAC destino del paquete y se llama correctamente a la función de callback de nivel superior.
+Enviar tramas Ethernet  correctamente: Realizado. Se construye la trama del paquete, realizando las conversiones a
+	bytes necesarias - en el caso de etherType, con el uso de struct.pack y '!H' de primer argumento, ya que se trata de 
+	2 bytes en formato big-endian-. Se añaden ceros alcanzar un tamaño mínimo de 60 bytes. Comprobando que el
+	retorno de la función sendEthernetFrame coincide con el tamaño de la trama.
+Enviar correctamente peticiones ARP: Realizado. En la función ARPResolution, tras comprobar que la dirección IP
+	no se encuentra en la caché, se procede a enviar la petición ARP tres veces. Se construye la trama con la funcion
+	createARPRequest y se cambia el valor de las variables globales requestedIP y awaitingResponse. El tiempo de espera
+	entre peticiones es de 100 ms. Se ha comprobado con Wireshark que se envía el paquete con la peitición ARP.
+Procesar correctamente peticiones ARP recibidas: Realizado. Se desempaquetan los datos correctamente, con el uso de 
+	struct.unpack para la conversión de direcciones IPs en enteros (se emplea '!I' porque se tratra de un entero de 
+	4 bytes en big-endian);  las direcciones MAC no precisan conversión.
+Enviar correctamente respuestas ARP: Realizado. El envío de respuestas ARP se efectúa en la función processARPRequest.
+	Se construye la trama - mediante createARPReply - y se envía por el nivel de ethernet, comprobando que el retorno de la 
+	función sendEthernetFrame es 0 (escenario de éxito). 
+Procesar correctamente respuestas ARP: Realizado. Se desempaquetan los datos, siguiendo la lógica del punto anterior.
+	 Adicionalmente, se añade la dirección MAC a la caché y se modifica el valor de las variables globales pertinentes,
+	protegiendo el acceso mediante locks.
+Manejo correcto de la caché ARP: Realizado. En la función ARPResolution, primeramente se comprueba si la dirección
+	IP se encuentra en la caché, en cuyo caso no se realiza la petición. En caso de que no se encuentre, tras la petición, 
+	la función processARPReply asocia el valor de la IP a la dirección MAC mediante la caché. Hemos comprobado que
+	el periodo de expiración de la caché son 10 segundos. Cada acceso a la caché se encuentra protegido con su lock.
+Uso correcto de Locks: Realizado. Se han empleado los métodos acquire y release para proteger las variables globales
+	que pretenden ser de acceso concurrente. Se ha prestado especial atención a los segmentos de código conflictivos,
+	almacenando en algunos casos el valor en local para poder levantar el lock antes de hacer un retorno. 
+Realiza correctamente el ARP gratuito: Realizado. En la función init_arp se realiza la llamada a ARPResolution con la propia
+	ip. El escenario de éxito es que no haya  ninguna respuesta (ie, que la IP no se encuentre en uso). Se ha comprobado
+	mediante el uso de Wireshark el envío del paquete con la petición ARP gratuita. La prueba 2, indicada en el enunciado y
+	que esta diseñada para probar el correcto funcionamiento del ARP Gratuito, es exitosa.
+*-----------------------*----------------------*
